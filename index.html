@@ -115,7 +115,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 }
 .risk-label {
   font-size:11px; font-weight:700; padding:4px 14px; border-radius:20px;
-  letter-spacing:.08em; text-transform:uppercase; flex-shrink:0;
+  letter-spacing:.08em; text-transform:none; flex-shrink:0;
 }
 .risk-on  { background:var(--green-bg); color:var(--green); border:1px solid var(--green-bd); }
 .risk-off { background:var(--red-bg);   color:var(--red);   border:1px solid var(--red-bd);  }
@@ -1459,9 +1459,9 @@ function updateIntelBanner(data){
   if(yieldsRising&&eqDir==='dn') score-=1; // yields rising with equities down = risk-off
 
   let regime, regimeCls, regimeIcon;
-  if(score>=2){regime='RISK ON'; regimeCls='risk-on'; regimeIcon='▲';}
-  else if(score<=-2){regime='RISK OFF'; regimeCls='risk-off'; regimeIcon='▼';}
-  else{regime='NEUTRAL'; regimeCls='risk-neu'; regimeIcon='◆';}
+  if(score>=2){regime='Macro Risk-On: Capital flowing into risk assets'; regimeCls='risk-on'; regimeIcon='▲';}
+  else if(score<=-2){regime='Macro Risk-Off: Capital flowing out of risk assets'; regimeCls='risk-off'; regimeIcon='▼';}
+  else{regime='Macro Market Risk-Neutral'; regimeCls='risk-neu'; regimeIcon='◆';}
 
   if(lbl){lbl.className='risk-label '+regimeCls; lbl.textContent=regimeIcon+' '+regime;}
 
