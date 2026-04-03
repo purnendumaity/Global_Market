@@ -398,19 +398,31 @@ body.dark .mv-table tr:hover td{background:var(--bg3)}
 .rd-mode-btn{font-size:11px;font-weight:600;padding:6px 16px;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);background:none;border-top:none;border-left:none;border-right:none;transition:all .15s;letter-spacing:.02em}
 .rd-mode-btn:hover{color:var(--text)}
 .rd-mode-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
-#scr-controls{padding:12px 18px;border-bottom:1px solid var(--border);flex-shrink:0;display:none;flex-direction:column;gap:8px}
+#scr-controls{padding:10px 14px 6px;border-bottom:1px solid var(--border);flex-shrink:0;display:none;flex-direction:column;gap:6px}
 #scr-controls.show{display:flex}
+/* legacy row styles kept for compatibility */
 .scr-row{display:flex;align-items:center;gap:8px}
 .scr-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;min-width:110px;flex-shrink:0}
 .scr-input{height:28px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:0 8px;font-family:var(--mono);font-size:11px;color:var(--text);outline:none;width:70px;transition:border .15s}
 .scr-input:focus{border-color:var(--blue)}
 .scr-input-hint{font-size:9px;color:var(--dim)}
+/* compact 2-col grid */
+.scr-grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}
+.scr-cell{display:flex;flex-direction:column;gap:3px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:6px 8px}
+.scr-clabel{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;line-height:1.2}
+.scr-csub{font-size:8px;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0;margin-left:2px}
+.scr-cinput{height:24px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:0 6px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--text);outline:none;width:100%;transition:border .15s}
+.scr-cinput:focus{border-color:var(--blue);background:var(--bg2)}
+body.dark .scr-cell{background:var(--bg3)}
+body.dark .scr-cinput{background:var(--bg4)}
 .scr-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
 .scr-toggle input[type=checkbox]{width:14px;height:14px;accent-color:var(--blue);cursor:pointer}
 .scr-toggle-label{font-size:11px;color:var(--text2);font-weight:500}
-#scr-run-btn{margin:0 18px 12px;background:var(--blue);color:#fff;border:none;border-radius:20px;padding:7px 20px;font-size:11px;font-weight:600;cursor:pointer;transition:background .15s;display:none;align-self:flex-start}
-#scr-run-btn.show{display:block}
+/* run button — now lives in sticky wrapper */
+#scr-run-btn{background:var(--blue);color:#fff;border:none;border-radius:20px;padding:8px 20px;font-size:11px;font-weight:700;cursor:pointer;transition:background .15s;display:block;width:100%;margin:0}
 #scr-run-btn:hover{background:#154888}
+#scr-run-wrap{display:none}
+#scr-run-wrap.show{display:block}
 #scr-header{display:none;padding:8px 18px 0;font-size:9px;color:var(--dim);letter-spacing:.07em}
 #scr-header.show{display:block}
 .scr-table{width:100%;border-collapse:collapse}
@@ -592,6 +604,176 @@ body.dark .scr-table td{border-bottom-color:var(--border)}
 .ft{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--dim)}
 .ft a{color:var(--blue);text-decoration:none}.ft a:hover{text-decoration:underline}
 .fdis{font-size:9px;color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:var(--r);padding:6px 12px;line-height:1.6;letter-spacing:.02em}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE — breakpoints: 768px (tablet), 480px (phone)
+   All business logic JS is untouched.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Mobile bottom nav ─────────────────────────────────────── */
+#mob-nav{display:none}
+
+@media(max-width:768px){
+
+  /* Root tweaks */
+  html{font-size:12px}
+
+  /* ── HEADER ── */
+  #header{
+    padding:0 10px;
+    height:auto;
+    flex-wrap:wrap;
+    gap:8px;
+    padding-top:8px;
+    padding-bottom:8px;
+  }
+  .logo svg{width:24px;height:24px}
+  .logo-name{font-size:13px}
+  .logo-sub{display:none}
+
+  /* Search takes full width on its own row */
+  #sw{
+    order:10;
+    flex:1 1 100%;
+    max-width:100%;
+  }
+
+  /* Hide less-critical header items on mobile to save space */
+  .live-pill{display:none}
+  #clock{display:none}
+  #cmpbtn{display:none}
+
+  /* Compact the remaining buttons */
+  .btn{font-size:10px;padding:3px 8px}
+  #resbtn::before{content:'🔍';margin-right:0}
+  #resbtn .btn-txt{display:none}
+  #darkbtn{padding:3px 7px}
+  #abtn{padding:3px 7px}
+
+  /* ── STATUS BAR ── */
+  #sbar{padding:3px 10px;font-size:8px}
+
+  /* ── INTEL BANNER ── */
+  #intel-banner{padding:8px 10px 8px}
+  .intel-top{gap:8px;margin-bottom:8px;flex-wrap:wrap}
+  #market-narrative{font-size:11px}
+  .intel-tiles{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap}
+  .ms{padding:5px 9px;min-width:68px}
+  .ms-p{font-size:12px}
+  .regime-drivers{gap:0;flex-wrap:wrap}
+  .driver-item{padding:2px 10px 2px 0;margin-right:10px}
+  .driver-label{font-size:8px}
+
+  /* ── TICKER ── */
+  #tkwrap{height:22px}
+  .ti{font-size:9px;padding:0 10px}
+
+  /* ── MAIN LAYOUT — stack left/right panels ── */
+  #main{flex-direction:column}
+  #left{padding:8px 8px 8px 8px;gap:8px}
+  #right{
+    width:100%;
+    padding:0 8px 80px 8px; /* bottom padding for mob nav */
+    gap:8px;
+  }
+
+  /* ── GRID: 2-col → 1-col ── */
+  .grid2{grid-template-columns:1fr}
+
+  /* ── TABLES: make horizontally scrollable ── */
+  .card{overflow-x:auto}
+  .dt{min-width:420px}
+  .ym-table{min-width:320px}
+
+  /* Hide sparkline chart column on small screens to save space */
+  .chart-col,.sp{display:none}
+
+  /* ── CARD HEADERS ── */
+  .chdr{padding:6px 10px 5px}
+  .ctitle{font-size:9px}
+
+  /* ── MODAL ── */
+  #modal{
+    width:100vw;
+    max-width:100vw;
+    max-height:92vh;
+    border-radius:12px 12px 0 0;
+    padding:16px 12px;
+  }
+  #ov{align-items:flex-end}
+  .mgrid{grid-template-columns:1fr 1fr}
+  .mprice{font-size:22px}
+  .mchg{font-size:13px}
+  .fund-grid{grid-template-columns:1fr}
+  .ac-summary{grid-template-columns:1fr 1fr}
+
+  /* ── RESEARCH DRAWER ── */
+  #research-drawer{
+    width:100vw;
+    height:90vh;
+    border-left:none;
+    border-radius:16px 16px 0 0;
+    border-top:1px solid var(--border);
+  }
+  #research-panel{align-items:flex-end;justify-content:center}
+
+  /* ── MARKET MOVERS ── */
+  .mv-grid{grid-template-columns:1fr;gap:8px;padding:8px 10px 0}
+
+  /* ── WATCHLIST ── */
+  #wl-input-row{padding:7px 10px}
+
+  /* ── SECTOR ROWS ── */
+  .sec-name{min-width:100px;font-size:9px}
+
+  /* ── FOOTER ── */
+  #footer{padding:8px 10px 70px}
+  .ft{flex-direction:column;align-items:flex-start;gap:3px}
+
+  /* ── MOBILE BOTTOM NAV ── */
+  #mob-nav{
+    display:flex;
+    position:fixed;
+    bottom:0;left:0;right:0;
+    z-index:600;
+    background:var(--bg2);
+    border-top:1px solid var(--border);
+    box-shadow:0 -2px 12px rgba(0,0,0,.1);
+    height:54px;
+    align-items:center;
+    justify-content:space-around;
+  }
+  .mn-btn{
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+    background:none;border:none;cursor:pointer;padding:6px 10px;
+    color:var(--muted);font-family:var(--sans);font-size:8px;font-weight:600;
+    letter-spacing:.04em;text-transform:uppercase;border-radius:8px;
+    transition:color .15s;
+  }
+  .mn-btn:hover,.mn-btn.active{color:var(--blue)}
+  .mn-ico{font-size:18px;line-height:1}
+
+  /* ── Section show/hide via mobile nav ── */
+  #left,#right{display:block}
+  body.mob-right #left{display:none}
+  body.mob-right #right{display:block}
+  body.mob-left  #right{display:none}
+  body.mob-left  #left{display:block}
+}
+
+@media(max-width:480px){
+  html{font-size:11px}
+  .logo-name{font-size:12px}
+  .btn{font-size:9px;padding:3px 7px}
+  .mgrid{grid-template-columns:1fr}
+  .ms{padding:4px 7px;min-width:60px}
+  .ms-p{font-size:11px}
+  .mv-grid{grid-template-columns:1fr}
+  #modal{padding:12px 10px}
+  .mprice{font-size:20px}
+  .mchg{font-size:12px}
+}
 </style>
 </head>
 <body>
@@ -869,6 +1051,25 @@ body.dark .scr-table td{border-bottom-color:var(--border)}
 <!-- MODAL -->
 <div id="ov" onclick="ovClick(event)"><div id="modal"><div id="mc"></div></div></div>
 
+<!-- MOBILE BOTTOM NAV -->
+<nav id="mob-nav" aria-label="Mobile navigation">
+  <button class="mn-btn active" id="mn-markets" onclick="mobNav('left',this)" title="Markets">
+    <span class="mn-ico">📊</span>Markets
+  </button>
+  <button class="mn-btn" id="mn-news" onclick="mobNav('right',this)" title="News & Tools">
+    <span class="mn-ico">📰</span>News
+  </button>
+  <button class="mn-btn" id="mn-refresh" onclick="doRefresh()" title="Refresh">
+    <span class="mn-ico">↻</span>Refresh
+  </button>
+  <button class="mn-btn" id="mn-research" onclick="openResearch()" title="Research">
+    <span class="mn-ico">🔍</span>Research
+  </button>
+  <button class="mn-btn" id="mn-dark" onclick="toggleDark()" title="Dark mode">
+    <span class="mn-ico">◑</span>Theme
+  </button>
+</nav>
+
 <!-- v2.3: RESEARCH PANEL — v2.8.5: SCREENER ADDED -->
 <div id="research-panel" onclick="rpClick(event)">
   <div id="research-drawer">
@@ -890,91 +1091,71 @@ body.dark .scr-table td{border-bottom-color:var(--border)}
       <button id="rd-btn" onclick="rdSearch()">Search</button>
     </div>
 
-    <!-- v2.8.5 SCREENER START: Filter controls (shown in screener mode) -->
-    <!-- v2.8.6 START: Preset buttons + grouped filters -->
+    <!-- SCREENER: compact redesign — presets + 2-col grid + sticky Run button -->
     <div class="scr-presets" id="scr-presets" style="display:none">
-      <button class="scr-preset-btn" onclick="applyPreset('value',this)">Value</button>
-      <button class="scr-preset-btn" onclick="applyPreset('growth',this)">Growth</button>
-      <button class="scr-preset-btn" onclick="applyPreset('quality',this)">Quality</button>
-      <button class="scr-preset-btn" onclick="applyPreset('income',this)">Income</button>
+      <button class="scr-preset-btn active" id="scr-preset-value" onclick="applyPreset('value',this)">Value</button>
+      <button class="scr-preset-btn" id="scr-preset-growth" onclick="applyPreset('growth',this)">Growth</button>
+      <button class="scr-preset-btn" id="scr-preset-quality" onclick="applyPreset('quality',this)">Quality</button>
+      <button class="scr-preset-btn" id="scr-preset-income" onclick="applyPreset('income',this)">Income</button>
       <button class="scr-preset-btn" onclick="applyPreset('clear',this)" style="margin-left:auto;color:var(--red)">✕ Clear</button>
     </div>
+    <!-- Sticky Run button at top of screener, always visible -->
+    <div id="scr-run-wrap" style="display:none;padding:8px 18px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:10;flex-shrink:0">
+      <button id="scr-run-btn" onclick="runScreener()" style="width:100%;margin:0">▶ Run Screen</button>
+    </div>
     <div id="scr-controls">
-      <!-- VALUATION -->
-      <div class="scr-group-title">Valuation</div>
-      <div class="scr-row">
-        <span class="scr-label">P/E max</span>
-        <input class="scr-input" id="scr-pe" type="number" min="0" max="500" step="1" placeholder="e.g. 25">
-        <span class="scr-input-hint">trailing</span>
+      <!-- 2-column compact grid for all filters -->
+      <div class="scr-grid2">
+        <div class="scr-cell">
+          <div class="scr-clabel">P/E Max <span class="scr-csub">trailing</span></div>
+          <input class="scr-cinput" id="scr-pe" type="number" min="0" max="500" step="1" value="20">
+        </div>
+        <div class="scr-cell">
+          <div class="scr-clabel">Fwd P/E Max <span class="scr-csub">forward</span></div>
+          <input class="scr-cinput" id="scr-fwdpe" type="number" min="0" max="500" step="1" value="18">
+        </div>
+        <div class="scr-cell">
+          <div class="scr-clabel">EV/EBITDA Max <span class="scr-csub">enterprise</span></div>
+          <input class="scr-cinput" id="scr-evebitda" type="number" min="0" max="200" step="1" value="12">
+        </div>
+        <div class="scr-cell">
+          <div class="scr-clabel">Rev Growth Min <span class="scr-csub">% YoY</span></div>
+          <input class="scr-cinput" id="scr-growth" type="number" min="-100" max="500" step="1">
+        </div>
+        <div class="scr-cell">
+          <div class="scr-clabel">Earn Growth Min <span class="scr-csub">% EPS</span></div>
+          <input class="scr-cinput" id="scr-earngrowth" type="number" min="-100" max="500" step="1">
+        </div>
+        <div class="scr-cell">
+          <div class="scr-clabel">ROE Min <span class="scr-csub">% equity</span></div>
+          <input class="scr-cinput" id="scr-roe" type="number" min="-100" max="500" step="1">
+        </div>
+        <div class="scr-cell">
+          <div class="scr-clabel">Op Margin Min <span class="scr-csub">%</span></div>
+          <input class="scr-cinput" id="scr-opmargin" type="number" min="-100" max="100" step="1">
+        </div>
+        <div class="scr-cell">
+          <div class="scr-clabel">Debt/Equity Max <span class="scr-csub">ratio</span></div>
+          <input class="scr-cinput" id="scr-debtequity" type="number" min="0" max="500" step="0.1">
+        </div>
+        <div class="scr-cell">
+          <div class="scr-clabel">Free CF Min <span class="scr-csub">$M</span></div>
+          <input class="scr-cinput" id="scr-fcf" type="number" min="-9999" max="99999" step="100">
+        </div>
+        <div class="scr-cell">
+          <div class="scr-clabel">Div Yield Min <span class="scr-csub">% annual</span></div>
+          <input class="scr-cinput" id="scr-divyield" type="number" min="0" max="30" step="0.1">
+        </div>
       </div>
-      <div class="scr-row">
-        <span class="scr-label">Fwd P/E max</span>
-        <input class="scr-input" id="scr-fwdpe" type="number" min="0" max="500" step="1" placeholder="e.g. 20">
-        <span class="scr-input-hint">forward</span>
-      </div>
-      <div class="scr-row">
-        <span class="scr-label">EV/EBITDA max</span>
-        <input class="scr-input" id="scr-evebitda" type="number" min="0" max="200" step="1" placeholder="e.g. 15">
-        <span class="scr-input-hint">enterprise value</span>
-      </div>
-      <!-- GROWTH -->
-      <div class="scr-group-title">Growth</div>
-      <div class="scr-row">
-        <span class="scr-label">Rev Growth min</span>
-        <input class="scr-input" id="scr-growth" type="number" min="-100" max="500" step="1" placeholder="e.g. 10">
-        <span class="scr-input-hint">% YoY</span>
-      </div>
-      <div class="scr-row">
-        <span class="scr-label">Earn Growth min</span>
-        <input class="scr-input" id="scr-earngrowth" type="number" min="-100" max="500" step="1" placeholder="e.g. 10">
-        <span class="scr-input-hint">% EPS growth</span>
-      </div>
-      <!-- PROFITABILITY -->
-      <div class="scr-group-title">Profitability</div>
-      <div class="scr-row">
-        <span class="scr-label">ROE min</span>
-        <input class="scr-input" id="scr-roe" type="number" min="-100" max="500" step="1" placeholder="e.g. 15">
-        <span class="scr-input-hint">% return on equity</span>
-      </div>
-      <div class="scr-row">
-        <span class="scr-label">Op Margin min</span>
-        <input class="scr-input" id="scr-opmargin" type="number" min="-100" max="100" step="1" placeholder="e.g. 15">
-        <span class="scr-input-hint">% operating margin</span>
-      </div>
-      <!-- FINANCIAL HEALTH -->
-      <div class="scr-group-title">Financial Health</div>
-      <div class="scr-row">
-        <span class="scr-label">Debt/Equity max</span>
-        <input class="scr-input" id="scr-debtequity" type="number" min="0" max="500" step="0.1" placeholder="e.g. 1.0">
-        <span class="scr-input-hint">ratio</span>
-      </div>
-      <!-- CASH FLOW -->
-      <div class="scr-group-title">Cash Flow</div>
-      <div class="scr-row">
-        <span class="scr-label">Free CF min</span>
-        <input class="scr-input" id="scr-fcf" type="number" min="-9999" max="99999" step="100" placeholder="e.g. 1000">
-        <span class="scr-input-hint">$M positive</span>
-      </div>
-      <!-- INCOME -->
-      <div class="scr-group-title">Income</div>
-      <div class="scr-row">
-        <span class="scr-label">Div Yield min</span>
-        <input class="scr-input" id="scr-divyield" type="number" min="0" max="30" step="0.1" placeholder="e.g. 2">
-        <span class="scr-input-hint">% annual yield</span>
-      </div>
-      <!-- ANALYST -->
-      <div class="scr-group-title">Analyst</div>
-      <div class="scr-row" style="padding:6px 0">
+      <div style="padding:6px 0 2px">
         <label class="scr-toggle">
           <input type="checkbox" id="scr-bullish">
-          <span class="scr-toggle-label">Bullish consensus only (Buy/Strong Buy)</span>
+          <span class="scr-toggle-label">Bullish consensus only (Buy / Strong Buy)</span>
         </label>
       </div>
     </div>
-    <button id="scr-run-btn" onclick="runScreener()">▶ Run Screen</button>
     <div id="scr-header"></div>
-    <!-- v2.8.6 END -->
-    <!-- v2.8.5 SCREENER END -->
+    <!-- SCREENER END -->
 
     <!-- v2.9 START: Top Ideas panel -->
     <div id="top-ideas-panel">
@@ -2128,7 +2309,7 @@ async function fetchResearch(sym){
   const now=Date.now();
   if(rdCache[sym]&&(now-rdCache[sym].ts)<RD_TTL) return rdCache[sym].data;
   // Fetch extended modules for research panel
-  const url=`https://query2.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(sym)}?modules=price,summaryDetail,defaultKeyStatistics,financialData,recommendationTrend,upgradeDowngradeHistory,assetProfile,earningsTrend`;
+  const url=`https://query2.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(sym)}?modules=price,summaryDetail,defaultKeyStatistics,financialData,recommendationTrend,upgradeDowngradeHistory,assetProfile`;
   try{
     const r=await pfetch(url);
     const j=await r.json();
@@ -2145,12 +2326,18 @@ async function fetchResearch(sym){
     const{strongBuy=0,buy=0,hold=0,sell=0,strongSell=0}=rt;
     const total=strongBuy+buy+hold+sell+strongSell;
     if(total>0){const sc=(strongBuy*1+buy*2+hold*3+sell*4+strongSell*5)/total;rec=sc<1.5?'STRONG BUY':sc<2.5?'BUY':sc<3.5?'HOLD':sc<4.5?'SELL':'STRONG SELL';}
+
+    // Fall back to _mdata cache for price/pct if the price module came back empty
+    const cached = window._mdata?.[sym];
+    const resolvedPrice = pr.regularMarketPrice?.raw ?? cached?.price ?? null;
+    const resolvedPct   = pr.regularMarketChangePercent?.raw ?? cached?.pct ?? null;
+
     const data={
       name:pr.longName||pr.shortName||sym,
       symbol:pr.symbol||sym,
-      price:pr.regularMarketPrice?.raw,
-      pct:pr.regularMarketChangePercent?.raw,
-      chg:pr.regularMarketChange?.raw,
+      price: resolvedPrice,
+      pct:   resolvedPct,
+      chg:pr.regularMarketChange?.raw ?? cached?.chg ?? null,
       currency:pr.currency||'USD',
       sector:ap.sector,
       industry:ap.industry,
@@ -2217,18 +2404,57 @@ document.addEventListener('keydown',e=>{
 
 document.getElementById('rd-input').addEventListener('keydown',e=>{if(e.key==='Enter')rdSearch();});
 
+// ── Autocomplete for research input (same pool as global search) ──────────────
+(function(){
+  const inp = document.getElementById('rd-input');
+  const searchRow = document.getElementById('rd-search-row');
+
+  // Create dropdown
+  const drop = document.createElement('div');
+  drop.id = 'rd-sr';
+  drop.style.cssText = 'position:absolute;top:100%;left:0;right:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh-md);max-height:240px;overflow-y:auto;display:none;z-index:500';
+  searchRow.style.position = 'relative';
+  searchRow.appendChild(drop);
+
+  inp.addEventListener('input',()=>{
+    const pool = typeof ALL_SEARCH !== 'undefined' ? ALL_SEARCH : [];
+    const q = inp.value.trim().toLowerCase();
+    if(q.length < 1){drop.style.display='none';return;}
+    const hits = [...new Map(
+      pool.filter(x=>x.s.toLowerCase().includes(q)||x.n.toLowerCase().includes(q))
+          .map(x=>[x.s,x])
+    ).values()].slice(0,8);
+    if(!hits.length){drop.style.display='none';return;}
+    drop.innerHTML = hits.map(x=>
+      '<div class="sri" onclick="rdPick(\'' + x.s + '\',\'' + x.n.replace(/'/g,'') + '\')">' +
+      '<span class="sri-sym">' + x.s + '</span>' +
+      '<span class="sri-name">' + x.n + '</span>' +
+      '<span class="sri-sec">' + (x.sec||'') + '</span>' +
+      '</div>'
+    ).join('');
+    drop.style.display='block';
+  });
+
+  inp.addEventListener('keydown',e=>{if(e.key==='Escape')drop.style.display='none';});
+  document.addEventListener('click',e=>{if(!searchRow.contains(e.target))drop.style.display='none';});
+})();
+
+function rdPick(sym, name){
+  document.getElementById('rd-input').value = sym;
+  const drop = document.getElementById('rd-sr');
+  if(drop) drop.style.display='none';
+  closeResearch();
+  openBySymbol(sym, name);
+}
+
 async function rdSearch(){
   const inp=document.getElementById('rd-input');
   const sym=inp.value.trim().toUpperCase();
   if(!sym)return;
-  const body=document.getElementById('rd-body');
-  body.innerHTML=`<div class="rd-loading"><div class="rd-spinner"></div><br>Loading research for <strong>${sym}</strong>…</div>`;
-  const d=await fetchResearch(sym);
-  if(!d){
-    body.innerHTML=`<div class="rd-none">No data available for <strong>${sym}</strong>.<br><span style="font-size:10px;color:var(--dim)">Check the ticker symbol and try again.</span></div>`;
-    return;
-  }
-  renderResearch(sym,d,body);
+  // Reuse the exact same proven flow as the global search (openBySymbol),
+  // which calls fetchFund — the only fetch path confirmed to work via the proxy.
+  closeResearch();
+  openBySymbol(sym, sym);
 }
 
 function renderResearch(sym,d,body){
@@ -2351,6 +2577,22 @@ function renderResearch(sym,d,body){
       ${histHTML}
     </div>
 
+    <div class="rd-section">
+      <div class="rd-section-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Price Chart</span>
+        <span style="display:flex;gap:4px" id="rd-chart-range-bar">
+          <button class="chart-range-btn" onclick="rdLoadChart('${sym}','1d',this)">1D</button>
+          <button class="chart-range-btn active" onclick="rdLoadChart('${sym}','1mo',this)">1M</button>
+          <button class="chart-range-btn" onclick="rdLoadChart('${sym}','6mo',this)">6M</button>
+          <button class="chart-range-btn" onclick="rdLoadChart('${sym}','1y',this)">1Y</button>
+        </span>
+      </div>
+      <div id="rd-chart-wrap" style="width:100%;background:var(--bg3);border-radius:var(--r);border:1px solid var(--border);padding:12px;min-height:120px;position:relative">
+        <div style="text-align:center;padding:40px 0;color:var(--muted);font-size:11px">Loading chart…</div>
+      </div>
+      <div id="rd-chart-stats" style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap"></div>
+    </div>
+
     ${d.description?`<div class="rd-section">
       <div class="rd-section-title">About</div>
       <div class="rd-desc">${d.description}</div>
@@ -2360,8 +2602,105 @@ function renderResearch(sym,d,body){
     <div style="padding:8px 0;text-align:right;font-size:10px;color:var(--dim)">
       <a href="https://finance.yahoo.com/quote/${sym}" target="_blank" style="color:var(--blue);text-decoration:none">↗ Full profile on Yahoo Finance</a>
     </div>`;
+
+  // Trigger chart load after HTML is in the DOM
+  setTimeout(() => rdLoadChart(sym, '1mo'), 0);
 }
 
+
+// ── Research panel chart loader (mirrors loadChartTab but targets rd-chart-wrap) ──
+async function rdLoadChart(sym, range, btnEl) {
+  // Update active range button within the research chart bar
+  const bar = document.getElementById('rd-chart-range-bar');
+  if (bar) {
+    bar.querySelectorAll('.chart-range-btn').forEach(b => b.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+    else {
+      const match = [...bar.querySelectorAll('.chart-range-btn')].find(b => b.textContent.trim() === ({
+        '1d':'1D','1mo':'1M','6mo':'6M','1y':'1Y'
+      }[range]));
+      if (match) match.classList.add('active');
+    }
+  }
+
+  const wrap = document.getElementById('rd-chart-wrap');
+  const statsRow = document.getElementById('rd-chart-stats');
+  if (!wrap) return;
+
+  // Check existing chartCache first (shared with modal chart)
+  const cKey = sym + '_' + range;
+  if (chartCache[cKey]) {
+    _rdDrawChart(wrap, statsRow, chartCache[cKey]);
+    return;
+  }
+
+  wrap.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--muted);font-size:11px"><span style="display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:sp .8s linear infinite;vertical-align:middle;margin-right:6px"></span>Loading…</div>';
+
+  const interval = (typeof CHART_INTERVALS !== 'undefined' ? CHART_INTERVALS : {'1d':'5m','5d':'15m','1mo':'1d','6mo':'1wk','1y':'1wk'})[range] || '1d';
+  const url = `https://query2.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=${interval}&range=${range}`;
+  try {
+    const r = await pfetch(url);
+    const j = await r.json();
+    const res = j?.chart?.result?.[0];
+    if (!res || !res.indicators?.quote?.[0]?.close) {
+      wrap.innerHTML = '<div style="padding:24px;text-align:center;color:var(--dim);font-size:11px">No chart data available</div>';
+      return;
+    }
+    const timestamps = res.timestamp || [];
+    const quotes = res.indicators.quote[0];
+    const pts = timestamps.map((t, i) => ({ t, c: quotes.close[i], h: quotes.high?.[i], l: quotes.low?.[i], v: quotes.volume?.[i] }))
+      .filter(p => p.c != null);
+    if (pts.length < 2) {
+      wrap.innerHTML = '<div style="padding:24px;text-align:center;color:var(--dim);font-size:11px">Insufficient data</div>';
+      return;
+    }
+    const chartData = { pts, range, sym };
+    chartCache[cKey] = chartData;
+    _rdDrawChart(wrap, statsRow, chartData);
+  } catch(e) {
+    wrap.innerHTML = '<div style="padding:24px;text-align:center;color:var(--dim);font-size:11px">Failed to load chart</div>';
+    console.warn('rdLoadChart error', sym, range, e);
+  }
+}
+
+function _rdDrawChart(wrap, statsRow, {pts, range}) {
+  const W = 520, H = 90;
+  const closes = pts.map(p => p.c);
+  const mn = Math.min(...closes), mx = Math.max(...closes), rng = mx - mn || 1;
+  const isUp = closes[closes.length-1] >= closes[0];
+  const col = isUp
+    ? (document.body.classList.contains('dark') ? '#3dd68c' : '#1a7a4a')
+    : (document.body.classList.contains('dark') ? '#f47067' : '#c0392b');
+  const gid = 'rdg' + Math.random().toString(36).slice(2, 7);
+  const xy = closes.map((v, i) => [
+    (i / (closes.length - 1)) * W,
+    H - ((v - mn) / rng) * (H - 8) - 4
+  ]);
+  const ptsStr = xy.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+  const f0 = `0,${xy[0][1].toFixed(1)}`;
+  const lp = `${xy[xy.length-1][0].toFixed(1)},${xy[xy.length-1][1].toFixed(1)}`;
+  wrap.innerHTML = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;height:${H}px">
+    <defs>
+      <linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${col}" stop-opacity=".25"/>
+        <stop offset="100%" stop-color="${col}" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <polygon points="${f0} ${ptsStr} ${lp} ${W},${H} 0,${H}" fill="url(#${gid})"/>
+    <polyline points="${ptsStr}" fill="none" stroke="${col}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+  </svg>`;
+  if (statsRow) {
+    const first = closes[0], last = closes[closes.length-1];
+    const chgPct = ((last - first) / first * 100).toFixed(2);
+    const chgCls = last >= first ? 'up' : 'dn';
+    statsRow.innerHTML = `
+      <div class="chart-stat"><div class="chart-stat-l">Open</div><div class="chart-stat-v">${first.toFixed(2)}</div></div>
+      <div class="chart-stat"><div class="chart-stat-l">Current</div><div class="chart-stat-v">${last.toFixed(2)}</div></div>
+      <div class="chart-stat"><div class="chart-stat-l">Change</div><div class="chart-stat-v ${chgCls}">${last>=first?'+':''}${chgPct}%</div></div>
+      <div class="chart-stat"><div class="chart-stat-l">Range Low</div><div class="chart-stat-v">${mn.toFixed(2)}</div></div>
+      <div class="chart-stat"><div class="chart-stat-l">Range High</div><div class="chart-stat-v">${mx.toFixed(2)}</div></div>`;
+  }
+}
 
 // v2.8.5 SCREENER START ───────────────────────────────────────────────
 
@@ -2439,9 +2778,9 @@ function setRdMode(mode) {
   // Toggle screener controls
   const scrCtrl = document.getElementById('scr-controls');
   scrCtrl.classList.toggle('show', mode === 'screener');
-  // Toggle run button
-  const runBtn = document.getElementById('scr-run-btn');
-  runBtn.classList.toggle('show', mode === 'screener');
+  // Toggle run button wrapper (sticky at top)
+  const runWrap = document.getElementById('scr-run-wrap');
+  if (runWrap) runWrap.style.display = mode === 'screener' ? 'block' : 'none';
   // Update title
   document.getElementById('rd-title').textContent = mode === 'search' ? '🔍 Research' : '🔎 Screener';
   // Reset body
@@ -2449,10 +2788,12 @@ function setRdMode(mode) {
   const hdr = document.getElementById('scr-header');
   const tiPanel2 = document.getElementById('top-ideas-panel');
   if (mode === 'screener') {
-    body.innerHTML = '<div class="rd-none">Set filters above and click Run Screen.</div>';
+    body.innerHTML = '<div class="rd-none" id="scr-ready-msg" style="padding:16px;font-size:11px;color:var(--dim)">✅ Value preset loaded — click <strong>Run Screen</strong> to see results, or adjust filters above.</div>';
     hdr.innerHTML = '';
     hdr.classList.remove('show');
     if (tiPanel2) tiPanel2.classList.remove('show');
+    // Pre-apply Value preset so user sees populated fields immediately
+    setTimeout(() => applyPreset('value', document.getElementById('scr-preset-value')), 0);
   } else {
     body.innerHTML = '<div class="rd-none">Enter a ticker symbol above to load company research data.</div>';
     hdr.innerHTML = '';
@@ -3355,10 +3696,21 @@ setRdMode = function(mode) {
   _origSetRdMode(mode);
   const presets = document.getElementById('scr-presets');
   if (presets) presets.style.display = mode === 'screener' ? 'flex' : 'none';
+  // Also show/hide the run-wrap (it has inline style from HTML, class toggle handles it)
+  const runWrap = document.getElementById('scr-run-wrap');
+  if (runWrap) runWrap.style.display = mode === 'screener' ? 'block' : 'none';
 };
 
 // v2.8.6 END ────────────────────────────────────────────────────────
 
+
+// ── MOBILE NAV HELPER ────────────────────────────────────────────────────────
+function mobNav(side, btn) {
+  document.body.classList.remove('mob-left','mob-right');
+  document.body.classList.add('mob-' + side);
+  document.querySelectorAll('.mn-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
 
 // ── BOOT ──────────────────────────────────────────────────────────────────────
 (async()=>{
