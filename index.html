@@ -4,8 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Global Market Intelligence</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Fonts proxied to avoid corporate firewall -->
+<style>
+  @font-face { font-family: 'Inter'; font-style: normal; font-weight: 300 700; }
+  @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400 600; }
+</style>
+<link href="https://api.purnendumaity.com/?url=https%3A%2F%2Ffonts.googleapis.com%2Fcss2%3Ffamily%3DInter%3Awght%40300%3B400%3B500%3B600%3B700%26family%3DJetBrains%2BMono%3Awght%40400%3B500%3B600%26display%3Dswap" rel="stylesheet">
 <style>
 :root {
   --bg:#f5f4f0; --bg2:#ffffff; --bg3:#f0efe9; --bg4:#e8e6df;
@@ -781,7 +785,7 @@ body.dark .scr-table td{border-bottom-color:var(--border)}
 <!-- HEADER -->
 <div id="header">
   <a class="logo" href="#">
-  <img src="https://static.vecteezy.com/system/resources/thumbnails/041/644/156/small_2x/3d-stock-market-ticker-with-upward-trend-arrow-icon-png.png" 
+  <img src="https://api.purnendumaity.com/?url=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fthumbnails%2F041%2F644%2F156%2Fsmall_2x%2F3d-stock-market-ticker-with-upward-trend-arrow-icon-png.png" 
        alt="Finance Logo" 
        style="height:55px;">
 	<div>
@@ -1176,8 +1180,11 @@ body.dark .scr-table td{border-bottom-color:var(--border)}
 
 <script>
 // ── PROXY ─────────────────────────────────────────────────────────────────────
+// ALL external calls go through this proxy — never call Yahoo/external domains directly
+const PROXY_BASE = 'https://api.purnendumaity.com/?url=';
+
 async function pfetch(url) {
-  const proxyUrl = `https://myrefdata.purnendumaity.workers.dev/?url=${encodeURIComponent(url)}`;
+  const proxyUrl = PROXY_BASE + encodeURIComponent(url);
   const r = await fetch(proxyUrl, { signal: AbortSignal.timeout(15000) });
   if (!r.ok) throw new Error(`Proxy ${r.status}`);
   return r;
